@@ -1,9 +1,6 @@
 # godot-gulp
 
-**Status: archived.** Built for the reclaim game project and released as open source in 2026-10, when that project
-moved to Unreal Engine. It is no longer maintained by the author: issues and pull requests may go unanswered. Fork it
-freely under the licence below. The development history stays private; this repository starts from a single
-release commit.
+**Status: maintained.** Issues and pull requests are welcome.
 
 Convert 3D asset packs to glTF for Godot, ahead of time, from the command line: USD, FBX, OBJ and Unity today, more
 source formats planned.

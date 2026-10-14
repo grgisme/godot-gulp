@@ -149,7 +149,7 @@ Assets, engine-only licences, never automating store downloads).
 ## Install
 
 ```sh
-pip install "godot-gulp @ git+https://github.com/grgisme/gulp"
+pip install "godot-gulp @ git+https://github.com/grgisme/godot-gulp"
 ```
 
 Python 3.10+ and a C compiler (the FBX reader builds on install). Dependencies (`usd-core`, `numpy`, `Pillow`,

@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "godot-gulp"
+version = "0.1.0"
+description = "Convert 3D asset packs (USD today) to glTF for Godot ahead of time, keeping what the source's materials say."
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE", "THIRD_PARTY.md"]
+requires-python = ">=3.10"
+dependencies = ["usd-core>=24.5", "numpy>=1.24", "Pillow>=10", "PyYAML>=6", "zstandard>=0.22"]
+classifiers = ["Programming Language :: Python :: 3", "Topic :: Multimedia :: Graphics :: 3D Modeling"]
+
+[project.optional-dependencies]
+test = ["pytest>=7"]
+
+[project.scripts]
+godot-gulp = "godot_gulp.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["godot_gulp*"]          # every subpackage (godot_gulp.unreal...): a fixed list left one out of the wheel
+
+[tool.setuptools.package-data]
+godot_gulp = ["godot/*.gd", "_vendor/ufbx/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

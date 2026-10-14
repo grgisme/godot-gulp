@@ -1,0 +1,9 @@
+{
+  "rules": [
+    {"match": "^MI_Brick", "uv_world_m": 0.6, "why": "one brick texture repeat covers 0.6 m"},
+    {"match": "^MI_Awning", "recolor": {"hue_to": 0, "sat_mul": 1.4, "val_mul": 1.2}, "why": "red awnings"},
+    {"match": "^MI_Facade", "tint": [0.68, 0.58, 0.46], "why": "tan render under the reference lighting"},
+    {"match": "^MI_.*Glass", "glass": {"color": [0.07, 0.10, 0.12, 0.38], "roughness": 0.08}, "why": "exported opaque"},
+    {"match": "^MI_.*Sign", "sign": true, "why": "sign faces left blank on purpose"}
+  ]
+}

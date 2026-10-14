@@ -1,0 +1,15 @@
+godot-gulp
+Copyright 2026 The godot-gulp authors
+
+This product is licensed under the Apache License, Version 2.0 (LICENSE).
+
+It includes code ported from godot-usd by Miguel de Icaza (https://github.com/migueldeicaza/godot-usd),
+used under the MIT License; see THIRD_PARTY.md for the notice and the full licence text. The ported parts are
+marked in godot_gulp/materials.py.
+
+It includes ufbx by Samuli Raivio (https://github.com/ufbx/ufbx), vendored unmodified in godot_gulp/_vendor/ufbx/,
+used under the MIT License; see THIRD_PARTY.md.
+
+Its Unreal package reader follows file layouts documented by CUE4Parse (Apache-2.0, https://github.com/FabianFG/CUE4Parse),
+uasset-parser by JokelBaf (MIT, https://github.com/jokelbaf/uasset-parser) and UAssetAPI by atenfyr (MIT,
+https://github.com/atenfyr/UAssetAPI); see THIRD_PARTY.md.

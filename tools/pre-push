@@ -1,0 +1,18 @@
+#!/bin/bash
+# Sample pre-push hook: cp tools/pre-push .git/hooks/pre-push
+# 1. gitleaks over the pushed commits (no push without it)
+# 2. commit messages against a local deny list, .git/info/deny-words (one case-insensitive extended regex per line;
+#    kept out of the repo on purpose, since the list itself would name what it protects)
+command -v gitleaks >/dev/null || { echo "pre-push: gitleaks not on PATH; refusing the push" >&2; exit 1; }
+deny="$(git rev-parse --git-dir)/info/deny-words"
+zero=0000000000000000000000000000000000000000
+while read -r _local sha _remote rsha; do
+	[ "$sha" = $zero ] && continue
+	range=$sha; [ "$rsha" != $zero ] && range="$rsha..$sha"
+	gitleaks git --no-banner --log-opts="$range" . >&2 || { echo "pre-push: gitleaks found something in $range; refusing the push" >&2; exit 1; }
+	if [ -s "$deny" ]; then
+		hits=$(git log --format='%h %B' "$range" | grep -inEf <(grep -v '^\s*\(#\|$\)' "$deny") | head -5)
+		[ -z "$hits" ] || { printf 'pre-push: a commit message names something on the deny list:\n%s\nreword it (git rebase -i is fine before the push)\n' "$hits" >&2; exit 1; }
+	fi
+done
+exit 0

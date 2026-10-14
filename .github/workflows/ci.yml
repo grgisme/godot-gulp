@@ -1,0 +1,27 @@
+name: ci
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      GODOT_VERSION: "4.7.2"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[test]"
+      - run: pytest -q
+      - name: The built wheel carries every module (a plain pip install, not the editable one)
+        run: |
+          python -m venv /tmp/wheelcheck
+          /tmp/wheelcheck/bin/pip install -q build && /tmp/wheelcheck/bin/python -m build -q --wheel --outdir /tmp/dist .
+          /tmp/wheelcheck/bin/pip install -q /tmp/dist/*.whl
+          cd /tmp && /tmp/wheelcheck/bin/python -c "import pkgutil, importlib, godot_gulp; [importlib.import_module(m.name) for m in pkgutil.walk_packages(godot_gulp.__path__, 'godot_gulp.') if not m.name.endswith(('_fixtures', '__main__'))]"
+          /tmp/wheelcheck/bin/godot-gulp unreal --help > /dev/null
+          /tmp/wheelcheck/bin/godot-gulp file --help > /dev/null
+      - name: Godot (headless) for the import check
+        run: |
+          curl -sSL -o godot.zip "https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip"
+          unzip -q godot.zip && mv "Godot_v${GODOT_VERSION}-stable_linux.x86_64" godot && chmod +x godot
+      - run: GODOT_GULP_GODOT=$PWD/godot godot-gulp conformance
